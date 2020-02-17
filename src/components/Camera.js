@@ -1,13 +1,15 @@
 import React from 'react';
 import { Dimensions, Alert, StyleSheet, ActivityIndicator } from 'react-native';
 import { RNCamera } from 'react-native-camera';
+import axios from 'axios';
+
 import CaptureButton from './CaptureButton.js'
 
 export default class Camera extends React.Component {
 
 	constructor(props) {
 		super(props);
-        this.state = { 
+        this.state = {
 			loading: false
 		}
     }
@@ -42,14 +44,29 @@ export default class Camera extends React.Component {
 		}
 	}
 
-	identifyImage(imageData){
+	identifyImage(imageData) {
 		// Initialise Clarifai api
 		const Clarifai = require('clarifai');
 		const app = new Clarifai.App({
 			apiKey: '1d42672a6ebf41ecad38801e6adabb98'
 		});
+		console.log(this.props)
+		axios.post('https://scrapping-google.herokuapp.com/get_data_image', {
+			imageBase64: imageData
+		  })
+		  .then((response) => {
+			response.imageBase64 = imageData;
+			this.redirectWhitData(response);
+			console.log('é pra redirecionar');
+			//console.log(response);
+		  })
+		  .catch(function (error) {
+			console.log('deu erro nessa merda')
+			console.log(error);
+		  });
+
 		// Identify the image
-		app.models.predict(Clarifai.GENERAL_MODEL, {base64: imageData})
+		/*app.models.predict(Clarifai.GENERAL_MODEL, {base64: imageData})
 			.then((response) => {
 				let resultados = '';
 				response.outputs.forEach((element, index) => {
@@ -64,8 +81,16 @@ export default class Camera extends React.Component {
 				});
 				return this.displayAnswer(resultados)
 			})
-			.catch((err) => alert(err));
+			.catch((err) => alert(err));*/
 
+	}
+
+	redirectWhitData(data) {
+		this.setState((prevState, props) => ({
+			loading: false
+		}));
+
+		this.props.navigation.push('ImageData', {data: data})
 	}
 
 	displayAnswer(identifiedImage) {
@@ -77,6 +102,7 @@ export default class Camera extends React.Component {
 			],
 			{cancelable: false},
 		);
+		
 		this.setState((prevState, props) => ({
 			loading: false
 		}));

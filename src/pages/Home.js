@@ -28,6 +28,16 @@ function App({navigation}) {
                     />
                 </TouchableHighlight>
             </View>
+            <View style={styles.containerLastButton}>
+                <TouchableHighlight style={styles.initButton}>
+                    <Button 
+                        onPress={() => {
+                            navigation.push('ImageData', {teste: 'asdfds'});
+                        }}
+                        title="Init 2" 
+                    />
+                </TouchableHighlight>
+            </View>
         </View>
     );
 }

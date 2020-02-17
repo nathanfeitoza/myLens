@@ -3,6 +3,7 @@ import { createStackNavigator, TransitionSpecs, HeaderStyleInterpolators } from 
 
 import Home from './pages/Home';
 import CaptureImage from './pages/CaptureImage';
+import ImageData from './pages/ImageData';
 
 const Stack = createStackNavigator();
 
@@ -28,6 +29,14 @@ const Navegacao = function () {
         }}
         component={CaptureImage} 
     />
+    <Stack.Screen 
+        name="ImageData"
+        options={{
+            headerTitle: "Dados Encontrados",
+            headerTitleAlign: "center",
+            headerTransparent: true,
+        }} 
+        component={ImageData} />
     </Stack.Navigator>
   );
 }
