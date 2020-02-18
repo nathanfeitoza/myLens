@@ -1,70 +1,28 @@
-import React from 'react';
-import { 
-    StyleSheet,
-    View,
-    TouchableHighlight,
-    Button,
-    Text,
-    Dimensions
-} from 'react-native';
+import React  from 'react';
+import { StyleSheet, View } from 'react-native';
+import Camera from '../components/Camera.js';
 
-import LastImages from '../components/LastImages';
+export default class App extends React.Component {
 
-function App({navigation}) {
-    return (
-        <View style={styles.container}>
-            <View style={styles.containerLastImages}>
-                <Text>Última imagens Analisadas</Text>
-                <LastImages />
-            </View>
+	constructor(props) {
+		super(props);
+		process.nextTick = setImmediate;
+	}
 
-            <View style={styles.containerLastButton}>
-                <TouchableHighlight style={styles.initButton}>
-                    <Button 
-                        onPress={() => {
-                            navigation.push('CaptureImage');
-                        }}
-                        title="Init" 
-                    />
-                </TouchableHighlight>
-            </View>
-            <View style={styles.containerLastButton}>
-                <TouchableHighlight style={styles.initButton}>
-                    <Button 
-                        onPress={() => {
-                            navigation.push('ImageData', {teste: 'asdfds'});
-                        }}
-                        title="Init 2" 
-                    />
-                </TouchableHighlight>
-            </View>
-        </View>
-    );
+	render() {
+		return (
+			<View style={styles.container}>
+				<Camera navigation={this.props.navigation} />
+		 	</View>
+		);
+	}
 }
 
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: '#fff',
-    },
-    containerLastImages: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'flex-start',
-        marginTop: Dimensions.get('window').height * 0.1,
-    },  
-    containerLastButton: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        //marginTop: Dimensions.get('window').height * 0.2,
-    },  
-    initButton: {
-        marginBottom: 30,
-		width: 160,
-		borderRadius: 10,
-		backgroundColor: "white",
-    }
+		alignItems: 'center',
+		justifyContent: 'center',	
+	}
 });
-
-export default App;
